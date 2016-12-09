@@ -15,17 +15,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 //@Disabled
 public class DriveForward extends LinearOpMode
 {
-    DcMotor leftMotor;
-    DcMotor rightMotor;
+    DcMotor leftdriveMotor;
+    DcMotor rightdriveMotor;
 
     // called when init button is  pressed.
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-        leftMotor = hardwareMap.dcMotor.get("left_motor");
-        rightMotor = hardwareMap.dcMotor.get("right_motor");
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftdriveMotor = hardwareMap.dcMotor.get("left_drive_motor");
+        rightdriveMotor = hardwareMap.dcMotor.get("right_drive_motor");
+        rightdriveMotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Mode", "waiting");
         telemetry.update();
@@ -37,16 +37,16 @@ public class DriveForward extends LinearOpMode
         telemetry.addData("Mode", "running");
         telemetry.update();
 
-        // set both motors to 25% power.
+        // set both motors to 30% power.
 
-        leftMotor.setPower(-0.25);
-        rightMotor.setPower(-0.25);
+        leftdriveMotor.setPower(-0.30);
+        rightdriveMotor.setPower(-0.30);
 
         sleep(2000);        // wait for 2 seconds.
 
         // set motor power to zero to stop motors.
 
-        leftMotor.setPower(0.0);
-        rightMotor.setPower(0.0);
+        leftdriveMotor.setPower(0.0);
+        rightdriveMotor.setPower(0.0);
     }
 }

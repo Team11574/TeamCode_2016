@@ -33,8 +33,10 @@ public class DriveForward extends LinearOpMode
         // wait for start button.
 
         waitForStart();
-
-        telemetry.addData("Mode", "running");
+       
+       sleep(10000);
+       
+       telemetry.addData("Mode", "running");
         telemetry.update();
 
         // set both motors to 30% power.

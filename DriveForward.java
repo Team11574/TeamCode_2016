@@ -34,7 +34,7 @@ public class DriveForward extends LinearOpMode
 
         waitForStart();
        
-       sleep(10000);
+       sleep(10000);           // Waits ten seconds and the starts the program to go forward 10 secs then stop.
        
        telemetry.addData("Mode", "running");
         telemetry.update();

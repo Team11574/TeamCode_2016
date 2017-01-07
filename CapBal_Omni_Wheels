@@ -1,32 +1,27 @@
-// simple autonomous program that drives bot forward 2 seconds then ends.
-// We hope this will knock the cap ball off the board and park us on the board.
+// simple teleop program that drives bot using controller joysticks in tank mode.
+// this code monitors the period and stops when the period is ended.
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
-// Below is the Annotation that registers this OpMode with the FtcRobotController app.
-// @Autonomous classifies the OpMode as autonomous, name is the OpMode title and the
-// optional group places the OpMode into the Omni Wheels group.
-// uncomment the @Disable annotation to remove the OpMode from the OpMode list.,
-
-@Autonomous(name="CapBall Omni Wheels", group="Omni Wheels")
+@TeleOp(name="TeleOp_Omni_Wheels", group="Omni")
 //@Disabled
-public class CapBall_Omni_Wheels extends LinearOpMode
+public class TeleOp_Omni_Wheels extends LinearOpMode
 {
-    DcMotor leftreardriveMotor;
-    DcMotor rightreardriveMotor;
+    DcMotor leftreardrivemotor, rightreardrivemotor;
+    float   leftY, rightY;
 
     // called when init button is  pressed.
-
     @Override
     public void runOpMode() throws InterruptedException
     {
-        leftreardriveMotor = hardwareMap.dcMotor.get("left_drive_motor");
-        rightreardriveMotor = hardwareMap.dcMotor.get("right_drive_motor");
-        rightreardriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftreardrivemotor = hardwareMap.dcMotor.get("leftreardrivemotor");
+        rightreardrivemotor = hardwareMap.dcMotor.get("rightreardrivemotor");
+        rightreardrivemotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Mode", "waiting");
         telemetry.update();
@@ -35,21 +30,19 @@ public class CapBall_Omni_Wheels extends LinearOpMode
 
         waitForStart();
 
-        sleep(10000);           // Waits ten seconds and the starts the program to go forward 10 secs then stop.
+        while (opModeIsActive())
+        {
+            leftY = gamepad1.left_stick_y;
+            rightY = gamepad1.right_stick_y;
 
-        telemetry.addData("Mode", "running");
-        telemetry.update();
+            leftreardrivemotor.setPower(Range.clip(leftY, -1.0, 1.0));
+            rightreardrivemotor.setPower(Range.clip(rightY, -1.0, 1.0));
 
-        // set both motors to 30% power.
+            telemetry.addData("Mode", "running");
+            telemetry.addData("sticks", "  left=" + leftY + "  right=" + rightY);
+            telemetry.update();
 
-        leftreardriveMotor.setPower(-0.30);
-        rightreardriveMotor.setPower(-0.30);
-
-        sleep(2000);        // wait for 2 seconds.
-
-        // set motor power to zero to stop motors.
-
-        leftreardriveMotor.setPower(0.0);
-        rightreardriveMotor.setPower(0.0);
+            idle();
+        }
     }
 }

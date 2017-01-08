@@ -30,10 +30,11 @@ public class TeleOp_Omni_Wheels extends LinearOpMode
 
         waitForStart();
  
-        sleep(10000);           // Waits ten seconds and the starts the program to go forward 10 secs then stop.
+       
 
         while (opModeIsActive())
         {
+         sleep(10000);           // Waits ten seconds and the starts the program to go forward 10 secs then stop.
             leftY = gamepad1.left_stick_y;
             rightY = gamepad1.right_stick_y;
 
@@ -41,7 +42,6 @@ public class TeleOp_Omni_Wheels extends LinearOpMode
             rightreardrivemotor.setPower(Range.clip(rightY, -1.0, 1.0));
 
             telemetry.addData("Mode", "running");
-            telemetry.addData("sticks", "  left=" + leftY + "  right=" + rightY);
             telemetry.update();
 
             idle();

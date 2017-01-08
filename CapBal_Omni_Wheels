@@ -1,26 +1,31 @@
-// simple teleop program that drives bot using controller joysticks in tank mode.
-// this code monitors the period and stops when the period is ended.
+/ simple autonomous program that drives bot forward 2 seconds then ends.
+// We hope this will knock the cap ball off the board and park us on the board.
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="TeleOp_Omni_Wheels", group="Omni")
+// Below is the Annotation that registers this OpMode with the FtcRobotController app.
+// @Autonomous classifies the OpMode as autonomous, name is the OpMode title and the
+// optional group places the OpMode into the Omni Wheels group.
+// uncomment the @Disable annotation to remove the OpMode from the OpMode list.,
+
+@Autonomous(name="CapBall Omni Wheels", group="Omni Wheels")
 //@Disabled
-public class TeleOp_Omni_Wheels extends LinearOpMode
+public class CapBall_Omni_Wheels extends LinearOpMode
 {
-    DcMotor leftreardrivemotor, rightreardrivemotor;
-    float   leftY, rightY;
+    DcMotor leftreardrivemotor;
+    DcMotor rightreardrivemotor;
 
     // called when init button is  pressed.
+
     @Override
     public void runOpMode() throws InterruptedException
     {
         leftreardrivemotor = hardwareMap.dcMotor.get("left_rear_drive_motor");
-        rightreardrivemotor = hardwareMap.dcMotor.get("right_rear_drive-motor");
+        rightreardrivemotor = hardwareMap.dcMotor.get("right_rear_drive_motor");
         rightreardrivemotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Mode", "waiting");
@@ -29,23 +34,23 @@ public class TeleOp_Omni_Wheels extends LinearOpMode
         // wait for start button.
 
         waitForStart();
-       
+
         while (opModeIsActive())
         {
-         Thread.sleep(10000);   // Waits ten seconds and the starts the program to go forward 10 secs then stop.
-            
-       // set both motors to 30% power.
+            Thread.sleep(10000);   // Waits ten seconds and the starts the program to go forward 10 secs then stop.
 
-        leftreardrivemotor.setPower(-0.30);
-        rightreardrivemotor.setPower(-0.30);
+            // set both motors to 30% power.
 
-        sleep(2000);        // wait for 2 seconds.
+            leftreardrivemotor.setPower(-0.30);
+            rightreardrivemotor.setPower(-0.30);
 
-        // set motor power to zero to stop motors.
+            sleep(2000);        // wait for 2 seconds.
 
-        leftreardrivemotor.setPower(0.0);
-        rightreardrivemotor.setPower(0.0);
-            
+            // set motor power to zero to stop motors.
+
+            leftreardrivemotor.setPower(0.0);
+            rightreardrivemotor.setPower(0.0);
+
             telemetry.addData("Mode", "running");
             telemetry.update();
 

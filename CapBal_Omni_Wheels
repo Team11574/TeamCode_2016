@@ -19,8 +19,8 @@ public class TeleOp_Omni_Wheels extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
-        leftreardrivemotor = hardwareMap.dcMotor.get("leftreardrivemotor");
-        rightreardrivemotor = hardwareMap.dcMotor.get("rightreardrivemotor");
+        leftreardrivemotor = hardwareMap.dcMotor.get("left_rear_drive_motor");
+        rightreardrivemotor = hardwareMap.dcMotor.get("right_rear_drive-motor");
         rightreardrivemotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Mode", "waiting");

@@ -21,7 +21,7 @@ public class TeleOP_Mecanum_Wheels extends OpMode {
     private String startDate;
     private ElapsedTime runtime = new ElapsedTime();
 
-    DcMotor w1, w2, w3, w4, fly1, fly2;
+    DcMotor lfdm, rfdm, lrdm, rrdm;
     
     @Override
     public void init() {
@@ -29,9 +29,7 @@ public class TeleOP_Mecanum_Wheels extends OpMode {
         w2 = hardwareMap.dcMotor.get("mBL");
         w3 = hardwareMap.dcMotor.get("mFR");
         w4 = hardwareMap.dcMotor.get("mBR");
-        fly1 = hardwareMap.dcMotor.get("fly1");
-        fly2 = hardwareMap.dcMotor.get("fly2");
-  
+        
         //w1.setDirection(DcMotor.Direction.REVERSE);
         //w2.setDirection(DcMotor.Direction.REVERSE);
         w3.setDirection(DcMotor.Direction.REVERSE);

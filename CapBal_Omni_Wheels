@@ -34,6 +34,18 @@ public class TeleOp_Omni_Wheels extends LinearOpMode
         {
          Thread.sleep(10000);   // Waits ten seconds and the starts the program to go forward 10 secs then stop.
             
+             // set both motors to 30% power.
+
+        leftreardrivemotor.setPower(-0.30);
+        rightreardrivemotor.setPower(-0.30);
+
+        sleep(2000);        // wait for 2 seconds.
+
+        // set motor power to zero to stop motors.
+
+        leftreardrivemotor.setPower(0.0);
+        rightreardrivemotor.setPower(0.0);
+            
             telemetry.addData("Mode", "running");
             telemetry.update();
 

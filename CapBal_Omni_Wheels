@@ -29,6 +29,8 @@ public class TeleOp_Omni_Wheels extends LinearOpMode
         // wait for start button.
 
         waitForStart();
+ 
+        sleep(10000);           // Waits ten seconds and the starts the program to go forward 10 secs then stop.
 
         while (opModeIsActive())
         {

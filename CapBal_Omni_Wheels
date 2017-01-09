@@ -1,5 +1,6 @@
-/ simple autonomous program that drives bot forward 2 seconds then ends.
-// We hope this will knock the cap ball off the board and park us on the board.
+// Basic autonomous program that drives the Omni Wheel robot forward 2 seconds then stops.
+// It will also wait 10 seconds before starting.
+// We hope this will knock the cap ball off the board and park us on the center board.
 
 package org.firstinspires.ftc.teamcode;
 
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Below is the Annotation that registers this OpMode with the FtcRobotController app.
 // @Autonomous classifies the OpMode as autonomous, name is the OpMode title and the
 // optional group places the OpMode into the Omni Wheels group.
-// uncomment the @Disable annotation to remove the OpMode from the OpMode list.,
+
 
 @Autonomous(name="CapBall Omni Wheels", group="Omni Wheels")
 //@Disabled
@@ -19,7 +20,8 @@ public class CapBall_Omni_Wheels extends LinearOpMode
     DcMotor leftreardrivemotor;
     DcMotor rightreardrivemotor;
 
-    // called when init button is  pressed.
+    // This is called when init button is  pressed.
+    // It calls the configuration from the phone so the robot knows which motors are which.
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -37,9 +39,9 @@ public class CapBall_Omni_Wheels extends LinearOpMode
 
         while (opModeIsActive())
         {
-            Thread.sleep(10000);   // Waits ten seconds and the starts the program to go forward 10 secs then stop.
+            Thread.sleep(10000);   // Waits ten seconds and then starts the program to go forward 10 secs then stop.
 
-            // set both motors to 30% power.
+            // set both motors to 30% power and drives robot forward for 2 seconds.
 
             leftreardrivemotor.setPower(-0.30);
             rightreardrivemotor.setPower(-0.30);

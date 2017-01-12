@@ -111,22 +111,6 @@ public class MecanumTeleOp extends OpMode {
       w3.setPower(y+x-lt+rt);
       w4.setPower(y-x-lt+rt);
 
-      if (gamepad1.a) {
-        fly1.setPower(1);
-        fly2.setPower(1);
-      }else {
-        fly1.setPower(0);
-        fly2.setPower(0);
-      }
-      if (gamepad1.b){
-        if(servoState == 0) {
-          servoState = 1;
-          servo1.setPosition(.8);
-          servo2.setPosition(.8);
-        } else {
-          servoState = 0;
-          servo1.setPosition(0);
-          servo2.setPosition(0);
         }
 
 

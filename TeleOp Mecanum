@@ -1,6 +1,6 @@
 // Copyright (c) 2014, 2015 Qualcomm Technologies Inc
 
-package org.firstinspires.ftc.robotcontroller.internal;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -12,109 +12,106 @@ import java.util.Date;
 
 /**
  * TeleOp Mode
- * <p>
  *Enables control of the robot via the gamepad
  */
 
 @TeleOp(name = "Mecanum: Tele Op", group = "Mecanum")
-public class MecanumTeleOp extends OpMode {
+public class TeleOp_Mecanum_Wheels extends OpMode {
 
-  private String startDate;
-  private ElapsedTime runtime = new ElapsedTime();
+    private String startDate;
+    private ElapsedTime runtime = new ElapsedTime();
 
-  DcMotor w1, w2, w3, w4, 
+    DcMotor w1, w2, w3, w4;
 
-  @Override
-  public void init() {
-    w1 = hardwareMap.dcMotor.get("mFL");
-    w2 = hardwareMap.dcMotor.get("mBL");
-    w3 = hardwareMap.dcMotor.get("mFR");
-    w4 = hardwareMap.dcMotor.get("mBR");
-   
-    //w1.setDirection(DcMotor.Direction.REVERSE);
-    //w2.setDirection(DcMotor.Direction.REVERSE);
-    w3.setDirection(DcMotor.Direction.REVERSE);
-    w4.setDirection(DcMotor.Direction.REVERSE);
+    @Override
+    public void init() {
+        w1 = hardwareMap.dcMotor.get("mFL");
+        w2 = hardwareMap.dcMotor.get("mBL");
+        w3 = hardwareMap.dcMotor.get("mFR");
+        w4 = hardwareMap.dcMotor.get("mBR");
 
-    w1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    w2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    w3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    w4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //w1.setDirection(DcMotor.Direction.REVERSE);
+        //w2.setDirection(DcMotor.Direction.REVERSE);
+        w3.setDirection(DcMotor.Direction.REVERSE);
+        w4.setDirection(DcMotor.Direction.REVERSE);
 
-    gamepad1.setJoystickDeadzone(0.2f);
-  }
+        w1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        w2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        w3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        w4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-  /*
-     * Code to run when the op mode is first enabled goes here
-     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+        gamepad1.setJoystickDeadzone(0.2f);
+    }
+
+    /*
+       * Code to run when the op mode is first enabled goes here
+       * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
+       */
+    @Override
+    public void init_loop() {
+        startDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
+        runtime.reset();
+        telemetry.addData("Null Op Init Loop", runtime.toString());
+    }
+
+    /*
+     * This method will be called repeatedly in a loop
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
      */
-  @Override
-  public void init_loop() {
-    startDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
-    runtime.reset();
-    telemetry.addData("Null Op Init Loop", runtime.toString());
-  }
 
-  /*
-   * This method will be called repeatedly in a loop
-   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
-   */
-  int servoState = 0;
-  @Override
-  public void loop() {
+    @Override
+    public void loop() {
 
-    //add telemetry
-    telemetry.addData("1 Start", "NullOp started at " + startDate);
-    telemetry.addData("W1 Encoder Value" , w1.getCurrentPosition());
-    telemetry.addData("W2 Encoder Value" , w2.getCurrentPosition());
-    telemetry.addData("W3 Encoder Value" , w3.getCurrentPosition());
-    telemetry.addData("W4 Encoder Value" , w4.getCurrentPosition());
+        //add telemetry
+        telemetry.addData("1 Start", "NullOp started at " + startDate);
+        telemetry.addData("W1 Encoder Value" , w1.getCurrentPosition());
+        telemetry.addData("W2 Encoder Value" , w2.getCurrentPosition());
+        telemetry.addData("W3 Encoder Value" , w3.getCurrentPosition());
+        telemetry.addData("W4 Encoder Value" , w4.getCurrentPosition());
 
 
-    double x = gamepad1.left_stick_x;
-    double y = gamepad1.left_stick_y;
-    double lt = gamepad1.left_trigger;
-    double rt = gamepad1.right_trigger;
+        double x = gamepad1.left_stick_x;
+        double y = gamepad1.left_stick_y;
+        double lt = gamepad1.left_trigger;
+        double rt = gamepad1.right_trigger;
 
-    if (gamepad1.dpad_left) {
-      //move left
-      w1.setPower(.3);
-      w2.setPower(-.3);
-      w3.setPower(-.3);
-      w4.setPower(.3);
+        if (gamepad1.dpad_left) {
+            //move left
+            w1.setPower(.3);
+            w2.setPower(-.3);
+            w3.setPower(-.3);
+            w4.setPower(.3);
 
-    } else if (gamepad1.dpad_right) {
-      //move right
-      w1.setPower(-.3);
-      w2.setPower(.3);
-      w3.setPower(.3);
-      w4.setPower(-.3);
+        } else if (gamepad1.dpad_right) {
+            //move right
+            w1.setPower(-.3);
+            w2.setPower(.3);
+            w3.setPower(.3);
+            w4.setPower(-.3);
 
-    }else if (gamepad1.dpad_up) {
-      //move forward
-      w1.setPower(-.3);
-      w2.setPower(-.3);
-      w3.setPower(-.3);
-      w4.setPower(-.3);
-    }else if (gamepad1.dpad_down) {
-      //move backward
-      w1.setPower(.3);
-      w2.setPower(.3);
-      w3.setPower(.3);
-      w4.setPower(.3);
+        }else if (gamepad1.dpad_up) {
+            //move forward
+            w1.setPower(-.3);
+            w2.setPower(-.3);
+            w3.setPower(-.3);
+            w4.setPower(-.3);
+        }else if (gamepad1.dpad_down) {
+            //move backward
+            w1.setPower(.3);
+            w2.setPower(.3);
+            w3.setPower(.3);
+            w4.setPower(.3);
 
-    } else {
-      //don't change this
-      w1.setPower(y-x+lt-rt);
-      w2.setPower(y+x+lt-rt);
-      w3.setPower(y+x-lt+rt);
-      w4.setPower(y-x-lt+rt);
+        } else {
+            //don't change this
+            w1.setPower(y-x+lt-rt);
+            w2.setPower(y+x+lt-rt);
+            w3.setPower(y+x-lt+rt);
+            w4.setPower(y-x-lt+rt);
 
         }
 
 
 
-      }
     }
-  }
 }

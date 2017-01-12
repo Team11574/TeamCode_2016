@@ -1,14 +1,14 @@
-// Copyright (c) 2014, 2015 Qualcomm Technologies Inc
+/ Copyright (c) 2014, 2015 Qualcomm Technologies Inc
 
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+// import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+// import java.text.SimpleDateFormat;
+// import java.util.Date;
 
 /**
  * TeleOp Mode
@@ -18,8 +18,8 @@ import java.util.Date;
 @TeleOp(name = "Mecanum: Tele Op", group = "Mecanum")
 public class TeleOp_Mecanum_Wheels extends OpMode {
 
-    private String startDate;
-    private ElapsedTime runtime = new ElapsedTime();
+//    private String startDate;
+//    private ElapsedTime runtime = new ElapsedTime();
 
     DcMotor w1, w2, w3, w4;
 
@@ -46,14 +46,16 @@ public class TeleOp_Mecanum_Wheels extends OpMode {
     /*
        * Code to run when the op mode is first enabled goes here
        * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
- 
- @Override
+       */
+
+ /*   @Override
     public void init_loop() {
         startDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
         runtime.reset();
         telemetry.addData("Null Op Init Loop", runtime.toString());
     }
 */
+
     /*
      * This method will be called repeatedly in a loop
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
@@ -63,11 +65,11 @@ public class TeleOp_Mecanum_Wheels extends OpMode {
     public void loop() {
 
         //add telemetry
-        telemetry.addData("1 Start", "NullOp started at " + startDate);
-        telemetry.addData("W1 Encoder Value" , w1.getCurrentPosition());
-        telemetry.addData("W2 Encoder Value" , w2.getCurrentPosition());
-        telemetry.addData("W3 Encoder Value" , w3.getCurrentPosition());
-        telemetry.addData("W4 Encoder Value" , w4.getCurrentPosition());
+      //  telemetry.addData("1 Start", "NullOp started at " + startDate);
+      //  telemetry.addData("W1 Encoder Value" , w1.getCurrentPosition());
+      //  telemetry.addData("W2 Encoder Value" , w2.getCurrentPosition());
+      //  telemetry.addData("W3 Encoder Value" , w3.getCurrentPosition());
+      //  telemetry.addData("W4 Encoder Value" , w4.getCurrentPosition());
 
 
         double x = gamepad1.left_stick_x;

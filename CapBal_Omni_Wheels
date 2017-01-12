@@ -37,9 +37,8 @@ public class CapBall_Omni_Wheels extends LinearOpMode
 
         waitForStart();
 
-        while (opModeIsActive())
         {
-            Thread.sleep(10000);   // Waits ten seconds and then starts the program to go forward 10 secs then stop.
+            Thread.sleep(10000);   // Waits ten seconds and then starts the program.
 
             // set both motors to 30% power and drives robot forward for 2 seconds.
 

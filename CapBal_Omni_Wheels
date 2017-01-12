@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name="CapBall Omni Wheels", group="Omni Wheels")
 //@Disabled
-public class CapBall_Omni_Wheels extends LinearOpMode
+public class CapBall_Mecanum_Wheels extends LinearOpMode
 {
     DcMotor leftreardrivemotor;
     DcMotor rightreardrivemotor;
@@ -26,8 +26,8 @@ public class CapBall_Omni_Wheels extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
-        leftreardrivemotor = hardwareMap.dcMotor.get("left_rear_drive_motor");
-        rightreardrivemotor = hardwareMap.dcMotor.get("right_rear_drive_motor");
+        leftreardrivemotor = hardwareMap.dcMotor.get("mBL");
+        rightreardrivemotor = hardwareMap.dcMotor.get("mBR");
         rightreardrivemotor.setDirection(DcMotor.Direction.REVERSE);
 
         telemetry.addData("Mode", "waiting");

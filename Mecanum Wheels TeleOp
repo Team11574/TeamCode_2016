@@ -63,30 +63,30 @@ public class Mecanum_Wheels_TeleOp extends OpMode {
 
         if (gamepad1.dpad_left) {
             //move left
-            w1.setPower(0.5);
-            w2.setPower(-0.5);
-            w3.setPower(-0.5);
-            w4.setPower(0.5);
+            w1.setPower(0.6);
+            w2.setPower(-0.6);
+            w3.setPower(-0.6);
+            w4.setPower(0.6);
 
         } else if (gamepad1.dpad_right) {
             //move right
-            w1.setPower(-0.5);
-            w2.setPower(0.5);
-            w3.setPower(0.5);
-            w4.setPower(-0.5);
+            w1.setPower(-0.6);
+            w2.setPower(0.6);
+            w3.setPower(0.6);
+            w4.setPower(-0.6);
 
         } else if (gamepad1.dpad_up) {
             //move forward
-            w1.setPower(-0.5);
-            w2.setPower(-0.5);
-            w3.setPower(-0.5);
-            w4.setPower(-0.5);
+            w1.setPower(-0.6);
+            w2.setPower(-0.6);
+            w3.setPower(-0.6);
+            w4.setPower(-0.6);
         } else if (gamepad1.dpad_down) {
             //move backward
-            w1.setPower(0.5);
-            w2.setPower(0.5);
-            w3.setPower(0.5);
-            w4.setPower(0.5);
+            w1.setPower(0.6);
+            w2.setPower(0.6);
+            w3.setPower(0.6);
+            w4.setPower(0.6);
 
         } else {
             //don't change this

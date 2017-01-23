@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 // Below is the Annotation that registers this OpMode with the FtcRobotController app.
 // @Autonomous classifies the OpMode as autonomous, name is the OpMode title and the
-// optional group places the OpMode into the Omni Wheels group.
+// optional group places the OpMode into the Mecanum Wheels group.
 
 
 @Autonomous(name="Mecanum Wheels CapBall", group="Mecanum Wheels")
@@ -46,14 +46,14 @@ public class Mecanum_Wheels_CapBall extends LinearOpMode
         {
             Thread.sleep(10000);   // Waits ten seconds and then starts the program.
 
-            // set both motors to 30% power and drives robot forward for 2 seconds.
+            // set both motors to 30% power and drives robot forward for 3 seconds.
 
             leftfrontdrivemotor.setPower(-0.30);
             leftreardrivemotor.setPower(-0.30);
             rightfrontdrivemotor.setPower(-0.30);
             rightreardrivemotor.setPower(-0.30);
 
-            sleep(3000);        // wait for 3 seconds.
+            sleep(2500);        // wait for 2.5 seconds.
 
             // set motor power to zero to stop motors.
 

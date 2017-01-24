@@ -22,8 +22,7 @@ public class Encoders_CapBall extends OpMode {
     final static int ENCODER_CPR = 1120; //Encoder Counters per Revolutionk
     final static double GEAR_RATIO = 1;  // Gear Ratio - 1:1 - Direct Drive
     final static int WHEEL_DIAMETER = 4;  // Diameter of the wheel in inches
-    final static int DISTANCE = 54
-            ;      // Distance in inches to drive too
+    final static int DISTANCE = 54;      // Distance in inches to drive too
 
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;

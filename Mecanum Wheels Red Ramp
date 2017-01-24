@@ -52,10 +52,10 @@ public class Mecanum_Wheels_Red_Ramp extends LinearOpMode
 // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for .75 seconds
-        leftfrontdrivemotor.setPower(-0.30);
-        leftreardrivemotor.setPower(-0.30);
-        rightfrontdrivemotor.setPower(-0.30);
-        rightreardrivemotor.setPower(-0.30);
+        leftfrontdrivemotor.setPower(0.30);
+        leftreardrivemotor.setPower(0.30);
+        rightfrontdrivemotor.setPower(0.30);
+        rightreardrivemotor.setPower(0.30);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < .75)) {
@@ -77,10 +77,10 @@ public class Mecanum_Wheels_Red_Ramp extends LinearOpMode
         }
 
         // Step 3:  Drive Forward for .5 Second
-        leftfrontdrivemotor.setPower(-FORWARD_SPEED);
-        leftreardrivemotor.setPower(-FORWARD_SPEED);
-        rightfrontdrivemotor.setPower(-FORWARD_SPEED);
-        rightreardrivemotor.setPower(-FORWARD_SPEED);
+        leftfrontdrivemotor.setPower(FORWARD_SPEED);
+        leftreardrivemotor.setPower(FORWARD_SPEED);
+        rightfrontdrivemotor.setPower(FORWARD_SPEED);
+        rightreardrivemotor.setPower(FORWARD_SPEED);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < .5)) {

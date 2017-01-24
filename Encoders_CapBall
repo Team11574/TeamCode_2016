@@ -1,3 +1,7 @@
+/* This program was created by FTC Team 11574.  Autonomous program to use encoders to
+*  drive to center vortex, knock capball off and park on the center board
+*  Created January 2017*/
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -6,8 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
+// set name to show on phone
 @Autonomous(name="Encoders CapBall", group="Autonomous")
 
+// declaring variables
 public class Encoders_CapBall extends OpMode {
 
     DcMotor leftfrontdrivemotor;
@@ -30,7 +36,6 @@ public class Encoders_CapBall extends OpMode {
 
     // This is called when init button is  pressed.
     // It calls the configuration from the phone so the robot knows which motors are which.
-
     @Override
     public void init() {
         leftfrontdrivemotor = hardwareMap.dcMotor.get("mFL");
@@ -48,36 +53,37 @@ public class Encoders_CapBall extends OpMode {
         leftreardrivemotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightreardrivemotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-        // wait for start button.
-
-            @Override
+    // wait for start button.
+    @Override
     public void start() {
 
-             // set target position equal to counts calculated from above
-            leftfrontdrivemotor.setTargetPosition((int) COUNTS);
-            rightfrontdrivemotor.setTargetPosition((int) COUNTS);
-            leftreardrivemotor.setTargetPosition((int) COUNTS);
-            rightreardrivemotor.setTargetPosition((int) COUNTS);
+        // set target position equal to counts calculated from above
+        leftfrontdrivemotor.setTargetPosition((int) COUNTS);
+        rightfrontdrivemotor.setTargetPosition((int) COUNTS);
+        leftreardrivemotor.setTargetPosition((int) COUNTS);
+        rightreardrivemotor.setTargetPosition((int) COUNTS);
 
-            // set motor to run to target encoder position and stop with brakes on.
-            // RUN_WITH_ENCODER will stop with coast.
-            leftfrontdrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightfrontdrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftreardrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightreardrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // set speed of motors
+        leftfrontdrivemotor.setPower(0.6);
+        leftreardrivemotor.setPower(0.6);
+        rightfrontdrivemotor.setPower(0.6);
+        rightreardrivemotor.setPower(0.6);
 
-            leftfrontdrivemotor.setPower(0.6);
-            leftreardrivemotor.setPower(0.6);
-            rightfrontdrivemotor.setPower(0.6);
-            rightreardrivemotor.setPower(0.6);
-        }
-    @Override
-            public void loop() {
-            telemetry.addData("Motor Target", COUNTS);
-            telemetry.addData("Left Front Position", leftfrontdrivemotor.getCurrentPosition());
-            telemetry.addData("Right Front Position", rightfrontdrivemotor.getCurrentPosition());
-            telemetry.addData("Left Rear Position", leftreardrivemotor.getCurrentPosition());
-            telemetry.addData("Right Rear Position", rightreardrivemotor.getCurrentPosition());
+        // set motor to run to target encoder position and stop with brakes on.
+        // RUN_WITH_ENCODER will stop with coast.
+        leftfrontdrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightfrontdrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftreardrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightreardrivemotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        }
     }
+    @Override
+    public void loop() {
+        telemetry.addData("Motor Target", COUNTS);
+        telemetry.addData("Left Front Position", leftfrontdrivemotor.getCurrentPosition());
+        telemetry.addData("Right Front Position", rightfrontdrivemotor.getCurrentPosition());
+        telemetry.addData("Left Rear Position", leftreardrivemotor.getCurrentPosition());
+        telemetry.addData("Right Rear Position", rightreardrivemotor.getCurrentPosition());
+
+    }
+}

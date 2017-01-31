@@ -179,8 +179,8 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
         }
         // Roughly align to the beacon before checking the color.
         drive_distance(strafe_away, 46.0, 0.6);
-        drive_distance(DRIVE_FORWARD, 41.25, 0.6);
-        drive_distance(DRIVE_FORWARD, 3.25, 0.4);
+        drive_distance(DRIVE_FORWARD, 29.6, 0.6);
+        drive_distance(DRIVE_FORWARD, 3.0, 0.4);
 
         int color_samples = 100;
 
@@ -227,13 +227,13 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
         if(b1_color == COLOR_TEAM) {
             drive_distance(strafe_back, 8.0, 0.2);
             drive_distance(DRIVE_FORWARD, 2.0, 0.2);
-            drive_distance(DRIVE_BACKWARD, 5.0, 0.2);
+            drive_distance(DRIVE_BACKWARD, 6.5, 0.2);
             drive_distance(strafe_away, 48.0, 0.6);
 
         } else if(b2_color == COLOR_TEAM) {
             drive_distance(strafe_back, 3.0, 0.2);
             drive_distance(DRIVE_FORWARD, 2.0, 0.2);
-            drive_distance(DRIVE_BACKWARD, 5.0, 0.2);
+            drive_distance(DRIVE_BACKWARD, 6.5, 0.2);
             drive_distance(strafe_away, 45.0, 0.6);
         }
     drive_distance(DRIVE_FORWARD, 2.5, 0.4);
@@ -290,13 +290,13 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
     }
 
     // Drive back to ramp.
-        drive_distance(DRIVE_BACKWARD, 5.0, 0.4);
-        drive_distance(strafe_back, 92.0, 0.8);
+        drive_distance(DRIVE_BACKWARD, 8.0, 0.4);
+        drive_distance(strafe_back, 90.0, 0.8);
+
+        idle();
     }
 
     // Stop.
 }
-
-
 
 

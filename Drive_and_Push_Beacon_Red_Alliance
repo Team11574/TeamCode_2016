@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 /**
- * Created by FTC team 11574 on 1/28/2017.
+ * Created by FTC Team 11574 on 1/28/2017.
  */
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -168,7 +168,7 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
         waitForStart();
         if (!isStarted())
             return;
-
+// This next part sets up a function to use strafe right and left for either color.
         int strafe_away, strafe_back;
         if (COLOR_TEAM == COLOR_RED) {
             strafe_away = STRAFE_RIGHT;
@@ -177,9 +177,9 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
             strafe_away = STRAFE_LEFT;
             strafe_back = STRAFE_RIGHT;
         }
-        // Roughly align to the beacon before checking the color.
+// This is where we align the robot to hit the beacon.  Change if needed.
         drive_distance(strafe_away, 46.0, 0.6);
-        drive_distance(DRIVE_FORWARD, 29.6, 0.6);
+        drive_distance(DRIVE_FORWARD, 29.85, 0.6);
         drive_distance(DRIVE_FORWARD, 3.0, 0.4);
 
         int color_samples = 100;
@@ -205,6 +205,7 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
         c2_r /= color_samples;
         c2_b /= color_samples;
 
+// b1=first beacon, b2=second beacon
         int b1_color, b2_color;
         if(c1_b > c1_r)
             b1_color = COLOR_BLUE;
@@ -236,7 +237,8 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
             drive_distance(DRIVE_BACKWARD, 6.5, 0.2);
             drive_distance(strafe_away, 45.0, 0.6);
         }
-    drive_distance(DRIVE_FORWARD, 2.5, 0.4);
+    // This is going forward towards second beacon, change this if to close or to far to beacon
+        drive_distance(DRIVE_FORWARD, 2.5, 0.4);
 
     // Drive past beacon checking for colors
    drive_distance(strafe_away, 4.5, 0.2);
@@ -291,12 +293,14 @@ public class Drive_and_Push_Beacon_Red_Alliance extends LinearOpMode {
 
     // Drive back to ramp.
         drive_distance(DRIVE_BACKWARD, 8.0, 0.4);
-        drive_distance(strafe_back, 90.0, 0.8);
+        drive_distance(strafe_back, 84.0, 0.8);
 
         idle();
     }
 
     // Stop.
 }
+
+
 
 

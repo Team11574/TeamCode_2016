@@ -60,7 +60,20 @@ public class Mecanum_Wheels_TeleOp extends OpMode {
         double y = gamepad1.left_stick_y;
         double lt = gamepad1.left_trigger;
         double rt = gamepad1.right_trigger;
-
+if (gamepad1.y){
+        //slow down 20% power button y
+        w1.setPower(-0.2);
+        w2.setPower(-0.2);
+        w3.setPower(0.2);
+        w4.setPower(0.2);
+        }
+else (gamepad1.b){
+        //acclerate 80% power button b
+        w1.setPower(-0.8);
+        w2.setPower(-0.8);
+        w3.setPower(0.8);
+        w4.setPower(0.8);
+        }
         if (gamepad1.dpad_left) {
             //move left
             w1.setPower(-0.6);
@@ -87,7 +100,38 @@ public class Mecanum_Wheels_TeleOp extends OpMode {
             w2.setPower(-0.6);
             w3.setPower(-0.6);
             w4.setPower(-0.6);
-
+  else if ()  { (gamepad1.dpad_up && gamepad1.dpad_left)
+  //diagonal upper left
+  w1.setPower(0.0);
+  w2.setPower(-0.6);
+  w3.setPower(0.6);
+  w4.setPower(0.0);
+  }
+ 
+ else if() { (gamepad1.dpad_up && gamepad1.dpad_right)
+        //diagonal upper right
+        w1.setPower(-0.6);
+        w2.setPower(0.0);
+        w3.setPower(0.0);
+        w4.setPower(0.6);
+        }
+ 
+ else if() { (gamepad1.dpad_down && gamepad1.dpad_left)
+        //diagonal lower left
+        w1.setPower(0.0);
+        w2.setPower(-0.6);
+        w3.setPower(0.6);
+        w4.setPower(0.0);
+        }
+        
+ else if() { (gamepad1.dpad_down && gamepad1.dpad_right)
+        //diagonal lower right
+        w1.setPower(-0.6);
+        w2.setPower(0.0);
+        w3.setPower(0.0);
+        w4.setPower(0.6);
+        }
+        
         } else {
             //don't change this. This will turn the robot left/right
             w1.setPower(y - x + lt - rt);

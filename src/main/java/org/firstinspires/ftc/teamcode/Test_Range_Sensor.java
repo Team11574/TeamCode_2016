@@ -22,6 +22,8 @@ public class Test_Range_Sensor extends Mecanum_Wheels_Generic {
         }
 
         waitForStart();
+        if (!isStarted() || isStopRequested())
+            return;
 
         drive_until_gt_alpha(STRAFE_RIGHT, 3.0, 24.0, 0.5);
         drive_until_lt_range(DRIVE_FORWARD, 10.0, 24.0, 0.5);

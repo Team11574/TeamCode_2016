@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 // set name to show on phone
-@Autonomous(name="Drive and Push Beacon Red Alliance", group="Autonomous")
+@Autonomous(name="Drive and Push Beacon CapBall", group="Autonomous")
 public class Drive_and_Push_Beacons_Hit_CapBall extends LinearOpMode {
     final private static int ENCODER_CPR = 1120;  // Encoder Counters per Revolution
     final private static double GEAR_RATIO = 1.0;   // Gear Ratio - 1:1 - Direct Drive

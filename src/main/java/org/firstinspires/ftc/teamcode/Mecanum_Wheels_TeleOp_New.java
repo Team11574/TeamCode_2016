@@ -56,21 +56,12 @@ public class Mecanum_Wheels_TeleOp_New extends OpMode {
     @Override
     public void loop() {
 
-        double aPower = 0.4;//added for 40% power with A Button
-        double xPower = 0.2;//added for 20% power with X Button
         double motorPower = 1.0;
+        double slowmotorPower = 0.30;
         double x = -gamepad1.left_stick_x;
         double y = -gamepad1.left_stick_y;
         double lt = -gamepad1.left_trigger;
         double rt = -gamepad1.right_trigger;
-
-        //40% Speed Forward when pushing Button A on Gamepad
-        if(gamepad1.a){
-            motorPower = aPower;
-        }
-        //20% Speed Forward when pushing Button X on Gamepad
-        if(gamepad1.x) {
-            motorPower = xPower;}
 
         if (gamepad1.dpad_left) {
             //move left
@@ -100,11 +91,11 @@ public class Mecanum_Wheels_TeleOp_New extends OpMode {
             w4.setPower(-motorPower);
 
         } else {
-            //don't change this. This will turn the robot left/right
-            w1.setPower(y - x + lt - rt);
-            w2.setPower(y + x + lt - rt);
-            w3.setPower(y + x - lt + rt);
-            w4.setPower(y - x - lt + rt);
+            //This will turn the robot left/right and power the sticks
+            w1.setPower((y - x + lt - rt)*slowmotorPower);
+            w2.setPower((y + x + lt - rt)*slowmotorPower);
+            w3.setPower((y + x - lt + rt)*slowmotorPower);
+            w4.setPower((y - x - lt + rt)*slowmotorPower);
 
         }
     }

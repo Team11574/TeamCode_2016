@@ -20,10 +20,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     final private static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     final private static double STRAFE_SLIPPAGE_FACTOR = 1.08;  // slippage of motors when strafing
 
-    final private static int COLOR_UNKNOWN = 0;
-    final private static int COLOR_RED = 1;
-    final private static int COLOR_BLUE = 2;
-    final private static String[] COLOR_NAMES = {
+    final public static int COLOR_UNKNOWN = 0;
+    final public static int COLOR_RED = 1;
+    final public static int COLOR_BLUE = 2;
+    final public static String[] COLOR_NAMES = {
             "unknown", "red", "blue"
     };
 
@@ -104,11 +104,23 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         }
     }
 
-    public void set_motor_power(int motor_index, int direction, double power) {
-        double motor_power = power;
+    public boolean one_encoder_satisfied() {
+        for(int i=0; i < MOTOR_COUNT; i++) {
+            if(motor[i].getCurrentPosition() >= motor[i].getTargetPosition())
+                return true;
+        }
+        return false;
+    }
 
-        motor[motor_index].setPower(motor_power);
-        //telemetry.addData(MOTOR_NAMES[motor_index] + "_power", motor_power);
+    public void wait_for_one_encoder_satisfied() {
+        while(true) {
+            if (one_encoder_satisfied())
+                return;
+        }
+    }
+
+    public void set_motor_power(int motor_index, int direction, double power) {
+        motor[motor_index].setPower(power);
     }
 
     public void drive_to_position(int direction, int count, double speed) {
@@ -116,17 +128,17 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             for(int i=0; i < MOTOR_COUNT; i++) {
                 motor[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor[i].setTargetPosition((int)((double)count * DRIVE_DIRECTIONS[direction][i]));
-                set_motor_power(i, direction, 0.25 * speed * DRIVE_DIRECTIONS[direction][i]);
+                set_motor_power(i, direction, 0.20 * speed * DRIVE_DIRECTIONS[direction][i]);
             }
             telemetry.update();
 
-            Thread.sleep(50);
+            Thread.sleep(100);
             for(int i=0; i < MOTOR_COUNT; i++) {
                 set_motor_power(i, direction, 0.50 * speed * DRIVE_DIRECTIONS[direction][i]);
             }
             telemetry.update();
 
-            Thread.sleep(10);
+            Thread.sleep(30);
             for(int i=0; i < MOTOR_COUNT; i++) {
                 set_motor_power(i, direction, 1.00 * speed * DRIVE_DIRECTIONS[direction][i]);
             }
@@ -152,11 +164,33 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         stop_all_motors();
     }
 
+    /*
+        TODO(jeremycole): Tune drive_distance_without_stopping.
+        This should ask the motors to drive slightly further and returns once the distance
+        requested has been driven, so that the next driving move can be made without stopping.
+        This should save 500ms or so per move.
+    */
+
+    public void drive_distance_without_stopping(int direction, double distance, double speed) {
+        drive_distance_start(direction, distance + 2.0, speed);
+        wait_for_one_encoder_satisfied();
+    }
+
     public void drive_until_lt_range(int direction, double desired_range, double max_distance, double speed) {
         drive_distance_start(direction, max_distance, speed);
         while(!one_motor_stopped()) {
             double current_range = (range.cmUltrasonic() / 2.54);
             if(current_range <= desired_range)
+                break;
+        }
+        stop_all_motors();
+    }
+
+    public void drive_until_gt_range(int direction, double desired_range, double max_distance, double speed) {
+        drive_distance_start(direction, max_distance, speed);
+        while(!one_motor_stopped()) {
+            double current_range = (range.cmUltrasonic() / 2.54);
+            if(current_range >= desired_range)
                 break;
         }
         stop_all_motors();
@@ -171,6 +205,31 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         }
         stop_all_motors();
     }
+
+    public int read_beacon_color() {
+        // TODO(jeremycole): Tune color_samples to save time.
+        int color_samples = 100;
+        double r = 0.0, b = 0.0;
+        for(int i=0; i < color_samples; i++) {
+            r += Beacon_color.red();
+            b += Beacon_color.blue();
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                return COLOR_UNKNOWN;
+            }
+        }
+        r /= color_samples;
+        b /= color_samples;
+
+        if(b > r)
+            return COLOR_BLUE;
+        else if(r > b)
+            return COLOR_RED;
+
+        return COLOR_UNKNOWN;
+    }
+
     public void robotInit() {
         motor = new DcMotor[MOTOR_COUNT];
 

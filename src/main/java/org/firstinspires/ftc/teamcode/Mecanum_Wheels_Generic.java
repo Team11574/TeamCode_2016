@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
 // TODO(jeremycole): All the loops here should ensure they exit when the timer expires.
@@ -105,6 +107,8 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
     // The front-facing range (ultrasonic + optical) sensor.
     ModernRoboticsI2cRangeSensor range;
+
+    DigitalChannel alliance_switch;
 
     // Convert a distance, in inches, into an encoder count, including a wheel slippage correction
     // factor.
@@ -311,6 +315,13 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         return COLOR_UNKNOWN;
     }
 
+    public int check_alliance() {
+        if (alliance_switch.getState())
+            return COLOR_RED;
+        else
+            return COLOR_BLUE;
+    }
+
     // Initialize the robot and all its sensors.
     public void robotInit() {
         // Initialize all motors in a loop.
@@ -335,6 +346,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
         // Initialize the front-facing range sensor.
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+
+        // Initialize the alliance switch.
+        alliance_switch = hardwareMap.digitalChannel.get("alliance_switch");
+        alliance_switch.setMode(DigitalChannelController.Mode.INPUT);
     }
 
     @Override

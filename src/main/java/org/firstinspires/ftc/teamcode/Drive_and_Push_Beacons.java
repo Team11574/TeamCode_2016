@@ -13,11 +13,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 
 // The program name to show on the driver station phone.
-@Autonomous(name="Drive and Push Beacon Red Alliance", group="Autonomous")
-public class Drive_and_Push_Beacon_Red_Alliance extends Mecanum_Wheels_Generic {
-    // This is Red because our alliance color is red.
-    // TODO(jeremycole): This should be read from a switch.
-    int color_alliance = COLOR_RED;
+@Autonomous(name="Drive and Push Beacons", group="Autonomous")
+public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
+    int color_alliance = COLOR_UNKNOWN;
 
     /*
         Drive forwards slowly, push the button, and then back up again.
@@ -83,6 +81,23 @@ public class Drive_and_Push_Beacon_Red_Alliance extends Mecanum_Wheels_Generic {
         // Initialize the robot; this comes from Mecanum_Wheels_Generic.
         robotInit();
 
+        while(!isStarted() && !isStopRequested()) {
+            // Send some basic sensor data telemetry for confirmation and testing.
+            telemetry.addData("1. alliance", COLOR_NAMES[check_alliance()]);
+            telemetry.addData("2. range", range.cmUltrasonic());
+            telemetry.addData("3. tape_alpha", Tape_color.alpha());
+            telemetry.addData("4. beacon_blue", Beacon_color.blue());
+            telemetry.addData("5. beacon_red", Beacon_color.red());
+            telemetry.update();
+        }
+
+        // Exit immediately if stop was pressed, otherwise continue.
+        if (!isStarted() || isStopRequested())
+            return;
+
+        // Read the alliance color from the alliance switch.
+        color_alliance = check_alliance();
+
         // Set up strafe_away and strafe_back variables to use the alliance color to decide which
         // way we will need to strafe (left or right). We can then use these consistently in the
         // rest of the code without worrying about which alliance we're on.
@@ -97,20 +112,6 @@ public class Drive_and_Push_Beacon_Red_Alliance extends Mecanum_Wheels_Generic {
             // There's nothing we can do here.
             return;
         }
-
-        while(!isStarted() && !isStopRequested()) {
-            // Send some basic sensor data telemetry for confirmation and testing.
-            telemetry.addData("1. alliance", COLOR_NAMES[color_alliance]);
-            telemetry.addData("2. range", range.cmUltrasonic());
-            telemetry.addData("3. tape_alpha", Tape_color.alpha());
-            telemetry.addData("4. beacon_blue", Beacon_color.blue());
-            telemetry.addData("5. beacon_red", Beacon_color.red());
-            telemetry.update();
-        }
-
-        // Exit immediately if stop was pressed, otherwise continue.
-        if (!isStarted() || isStopRequested())
-            return;
 
         /*
             Calibrate the Tape_color sensor to the alpha value of the floor in the starting
@@ -149,7 +150,7 @@ public class Drive_and_Push_Beacon_Red_Alliance extends Mecanum_Wheels_Generic {
               2. Strafe towards the tape line until we find it.
               3. Drive forwards quickly and then slowly as above.
          */
-        drive_distance_without_stopping(strafe_away, 36.0, 1.0);
+        drive_distance(strafe_away, 36.0, 1.0);
         drive_until_gt_alpha(strafe_away, tape_alpha, 24.0, 0.6);
         drive_until_lt_range(DRIVE_FORWARD, 10.0, 24.0, 0.6);
         drive_until_lt_range(DRIVE_FORWARD, 5.0, 10.0, 0.2);
@@ -162,7 +163,7 @@ public class Drive_and_Push_Beacon_Red_Alliance extends Mecanum_Wheels_Generic {
 
         // Strafe back to the first beacon's tape line, then back up to bump the cap ball and
         // park on the center.
-        drive_distance_without_stopping(strafe_back, 36.0, 1.0);
+        drive_distance(strafe_back, 36.0, 1.0);
         drive_until_gt_alpha(strafe_back, tape_alpha, 24.0, 0.6);
         drive_distance(DRIVE_BACKWARD, 36.0, 1.0);
 

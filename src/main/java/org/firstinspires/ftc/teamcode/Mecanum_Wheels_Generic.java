@@ -42,7 +42,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
     // The difference in brightness from dark floor mat to white tape.
     // TODO(jeremycole): Adjust once the Tape_color sensor is lowered.
-    final public static double TAPE_ALPHA_DIFFERENCE = 2.0;
+    final public static double TAPE_ALPHA_DIFFERENCE = 5.0;
 
     // Each of the colors we need to know about, only red and blue.
     // TODO(jeremycole): This could probably be an enum.

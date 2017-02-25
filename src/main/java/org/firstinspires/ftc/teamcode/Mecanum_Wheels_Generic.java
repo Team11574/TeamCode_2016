@@ -9,6 +9,9 @@ it to be controlled. This class should be sub-classed for each actual program.
 
 */
 
+import java.util.Locale;
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -20,8 +23,15 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 
 // TODO(jeremycole): All the loops here should ensure they exit when the timer expires.
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Mecanum_Wheels_Generic extends LinearOpMode {
+    // Tag to log messages to the Android log with.
+    final public static String LOG_TAG = "FTC";
+
+    public void info(String msg) {
+        Log.i(LOG_TAG, msg);
+    }
+
     // Number of encoder counts per wheel revolution.
     final private static int ENCODER_CPR = 1120;
 
@@ -187,29 +197,27 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Drive in a given direction at a given speed until at least one encoder reaches the
     // given count.
     public void drive_to_position(int direction, int count, double speed) {
-        try {
-            for(int i=0; i < MOTOR_COUNT; i++) {
-                motor[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor[i].setTargetPosition((int)((double)count * DRIVE_DIRECTIONS[direction][i]));
-                set_motor_power(i, direction, 0.20 * speed * DRIVE_DIRECTIONS[direction][i]);
-            }
-            telemetry.update();
+        info(String.format(Locale.US, "Called drive_to_position: direction=%d, count=%d, speed=%.2f",
+                direction, count, speed));
 
-            Thread.sleep(100);
-            for(int i=0; i < MOTOR_COUNT; i++) {
-                set_motor_power(i, direction, 0.50 * speed * DRIVE_DIRECTIONS[direction][i]);
-            }
-            telemetry.update();
-
-            Thread.sleep(30);
-            for(int i=0; i < MOTOR_COUNT; i++) {
-                set_motor_power(i, direction, 1.00 * speed * DRIVE_DIRECTIONS[direction][i]);
-            }
-            telemetry.update();
-
-        } catch(InterruptedException e) {
-            // Do nothing if we returned from sleep early.
+        for(int i=0; i < MOTOR_COUNT; i++) {
+            motor[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motor[i].setTargetPosition((int)((double)count * DRIVE_DIRECTIONS[direction][i]));
+            set_motor_power(i, direction, 0.20 * speed * DRIVE_DIRECTIONS[direction][i]);
         }
+        telemetry.update();
+
+        sleep(100);
+        for(int i=0; i < MOTOR_COUNT; i++) {
+            set_motor_power(i, direction, 0.50 * speed * DRIVE_DIRECTIONS[direction][i]);
+        }
+        telemetry.update();
+
+        sleep(30);
+        for(int i=0; i < MOTOR_COUNT; i++) {
+            set_motor_power(i, direction, 1.00 * speed * DRIVE_DIRECTIONS[direction][i]);
+        }
+        telemetry.update();
     }
 
     // Start driving in a given direction at a given speed for a maximum of the given distance,
@@ -278,52 +286,65 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Check the beacon colors and push the correct button. This assumes that the robot has been
     // aligned on the white line and is positioned with the range sensor 5.0 inches from the
     // beacon.
-    public void check_beacons_and_push_button(int color_alliance, int strafe_away, int strafe_back) {
-        // Align to the first side of the beacon, and read its color.
+    public void check_beacons_and_push_button(String beacon_name,
+                                              int color_alliance,
+                                              int strafe_away,
+                                              int strafe_back) {
+        String log_prefix = "[" + beacon_name + "] ";
+
+        info(log_prefix +
+                "Checking beacon for " + COLOR_NAMES[color_alliance] + " alliance.");
+
+        // Align to the first (near) side of the beacon, and read its color.
+        info(log_prefix + "Reading near side color...");
         drive_distance(strafe_back, 3.0, 0.2);
-        int b1_color = read_beacon_color();
+        int near_color = read_beacon_color();
+
+        info(log_prefix + "Near side color: " + COLOR_NAMES[near_color]);
 
         // Send the color telemetry data for debugging.
-        telemetry.addData("b1_col", COLOR_NAMES[b1_color]);
-        telemetry.addData("b2_col", COLOR_NAMES[COLOR_UNKNOWN]);
+        telemetry.addData(beacon_name, COLOR_NAMES[near_color] + "/" + COLOR_NAMES[COLOR_UNKNOWN]);
         telemetry.update();
 
-        // Align to the second side of the beacon, and read its color.
+        // Align to the second (far) side of the beacon, and read its color.
+        info(log_prefix + "Reading far side color...");
         drive_distance(strafe_away, 5.0, 0.2);
-        int b2_color = read_beacon_color();
+        int far_color = read_beacon_color();
+
+        info(log_prefix + "Far side color: " + COLOR_NAMES[far_color]);
 
         // Send the color telemetry data for debugging.
-        telemetry.addData("b1_col", COLOR_NAMES[b1_color]);
-        telemetry.addData("b2_col", COLOR_NAMES[b2_color]);
+        telemetry.addData(beacon_name, COLOR_NAMES[near_color] + "/" + COLOR_NAMES[far_color]);
         telemetry.update();
 
-        if(b1_color == color_alliance) {
+        if(near_color == color_alliance) {
+            info(log_prefix + "Pushing near side.");
             drive_distance(strafe_back, 8.0, 0.2);
-        } else if(b2_color == color_alliance) {
+        } else if(far_color == color_alliance) {
+            info(log_prefix + "Pushing far side.");
             drive_distance(strafe_away, 3.0, 0.2);
         } else {
             // Don't push either button...
+            info(log_prefix + "Unable to determine which side to press!");
             return;
         }
         push_beacon();
 
-        // Check if the beacon switched to the team's color, if not, we'll wait the 5s rule
-        // timeout and re-push it, which should flip the color. It doesn't matter which button
+        // Check if the beacon switched to the alliance's color, if not, we'll wait the 5s rule
+        // timeout and re-push it, which should flip the color. If we leave the beacon on
+        // the wrong color, it is 30 points for the other alliance. It doesn't matter which button
         // we push at this point, so no need to reposition.
-        if(read_beacon_color() != color_alliance) {
-            // We must have mis-pushed the beacon. Wait for 5s rule timeout and just push the
-            // beacon again, which will flip it to the other color.
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                // We are probably better to forget about this beacon because re-pushing it too
-                // soon will cost us.
-                return;
-            }
+        int checked_beacon_color = read_beacon_color();
+        if(checked_beacon_color != color_alliance) {
+            info(log_prefix + "Appears to be mis-pushed; got color " +
+                    COLOR_NAMES[checked_beacon_color] + "; waiting to re-push!");
+
+            sleep(5000);
+
+            info(log_prefix + "Re-pushing beacon. Hopefully fixed!");
             push_beacon();
         }
     }
-
 
     // Figure out the color (red or blue) that the beacon color sensor is seeing. In order to
     // get a somewhat more accurate color reading, multiple readings are taken and averaged.
@@ -337,19 +358,15 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             r += Beacon_color.red();
             b += Beacon_color.blue();
 
-            // Sleep between samples to allow the sensor to see something new.
-            try {
-                Thread.sleep(COLOR_SAMPLE_SLEEP);
-            } catch (InterruptedException e) {
-                // Ignore the canceled sleep since we don't care too much about the amount of time
-                // that we actually slept.
-            }
+            sleep(COLOR_SAMPLE_SLEEP);
         }
 
         // Produce an average red and blue value by dividing the accumulated sum in the r and b
         // variables by the number of samples taken.
         r /= COLOR_SAMPLE_COUNT;
         b /= COLOR_SAMPLE_COUNT;
+
+        info(String.format(Locale.US, "Average color values: red=%.2f, blue=%.2f", r, b));
 
         if(b > r)       // The sensor saw more blue than red.
             return COLOR_BLUE;
@@ -370,7 +387,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
     // Initialize the robot and all its sensors.
     public void robotInit() {
+        info("Initialization starting...");
+
         // Initialize all motors in a loop.
+        info("* Initializing motors...");
         motor = new DcMotor[MOTOR_COUNT];
         for(int i=0; i < MOTOR_COUNT; i++) {
             motor[i] = hardwareMap.dcMotor.get(MOTOR_NAMES[i]);
@@ -381,27 +401,76 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         stop_all_motors();
 
         // Initialize the front-facing beacon color sensor.
+        info("* Initializing beacon color sensor...");
         Beacon_color = hardwareMap.colorSensor.get("Beacon_color");
         Beacon_color.setI2cAddress(I2cAddr.create8bit(0x3c));
         Beacon_color.enableLed(false);
 
         // Initialize the bottom-mounted tape color sensor.
+        info("* Initializing tape color sensor...");
         Tape_color = hardwareMap.colorSensor.get("Tape_color");
         Tape_color.setI2cAddress(I2cAddr.create8bit(0x3a));
         Tape_color.enableLed(true);
 
         // Initialize the front-facing range sensor.
+        info("* Initializing range sensor...");
         range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
         // Initialize the alliance switch.
+        info("* Initializing alliance switch...");
         alliance_switch = hardwareMap.digitalChannel.get("alliance_switch");
         alliance_switch.setMode(DigitalChannelController.Mode.INPUT);
+
+        info("Initialization complete.");
+    }
+
+    public void robotWaitForStart() throws InterruptedException {
+        while(!isStarted() && !isStopRequested()) {
+            // Send some basic sensor data telemetry for confirmation and testing.
+            telemetry.addData("1. alliance", COLOR_NAMES[check_alliance()]);
+            telemetry.addData("2. range", range.cmUltrasonic());
+            telemetry.addData("3. tape_alpha", Tape_color.alpha());
+            telemetry.addData("4. beacon_blue", Beacon_color.blue());
+            telemetry.addData("5. beacon_red", Beacon_color.red());
+            telemetry.update();
+        }
+    }
+
+    public void robotRun() throws InterruptedException {
+        // Do nothing. This should be overridden in a subclass.
     }
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Do nothing. This should be overridden in a subclass.
+        // The entire execution of the OpMode is inside a try block so that
+        // any exceptions generated can be caught and a stack trace logged.
+        try {
+            info("Calling robotInit()...");
+            robotInit();
+
+            info("Calling robotWaitForStart()...");
+            robotWaitForStart();
+
+            // Exit immediately if stop was pressed, otherwise continue.
+            if (!isStarted() || isStopRequested()) {
+                info("Stop requested!");
+                return;
+            }
+
+            info("Calling robotRun()...");
+            robotRun();
+        } catch (Throwable t) {
+            // Log the exception, and then re-throw a RuntimeException.
+            Log.e(LOG_TAG, "Exception caught!", t);
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            }
+
+            throw new RuntimeException(t);
+        }
     }
+
 }
 
 

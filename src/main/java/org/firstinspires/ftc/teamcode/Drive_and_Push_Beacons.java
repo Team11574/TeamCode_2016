@@ -21,18 +21,18 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
     @Override
     public void robotRun() throws InterruptedException {
         // Read the alliance color from the alliance switch.
-        int color_alliance = check_alliance();
+        AllianceColor color_alliance = check_alliance();
 
-        info("Ready to run for " + COLOR_NAMES[color_alliance] + " alliance.");
+        info("Ready to run for " + color_alliance + " alliance.");
 
         // Set up strafe_away and strafe_back variables to use the alliance color to decide which
         // way we will need to strafe (left or right). We can then use these consistently in the
         // rest of the code without worrying about which alliance we're on.
         int strafe_away, strafe_back;
-        if (color_alliance == COLOR_RED) {
+        if (color_alliance == AllianceColor.Red) {
             strafe_away = STRAFE_RIGHT;
             strafe_back = STRAFE_LEFT;
-        } else if(color_alliance == COLOR_BLUE) {
+        } else if(color_alliance == AllianceColor.Blue) {
             strafe_away = STRAFE_LEFT;
             strafe_back = STRAFE_RIGHT;
         } else {

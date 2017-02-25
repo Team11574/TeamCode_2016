@@ -59,13 +59,11 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     final public static double TAPE_ALPHA_DIFFERENCE = 5.0;
 
     // Each of the colors we need to know about, only red and blue.
-    // TODO(jeremycole): This could probably be an enum.
-    final public static int COLOR_UNKNOWN = 0;
-    final public static int COLOR_RED = 1;
-    final public static int COLOR_BLUE = 2;
-    final public static String[] COLOR_NAMES = {
-            "unknown", "red", "blue"
-    };
+    public enum AllianceColor {
+        Unknown,
+        Red,
+        Blue,
+    }
 
     // Each of the motors on the robot.
     // TODO(jeremycole): This could probably be an enum.
@@ -287,34 +285,34 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // aligned on the white line and is positioned with the range sensor 5.0 inches from the
     // beacon.
     public void check_beacons_and_push_button(String beacon_name,
-                                              int color_alliance,
+                                              AllianceColor color_alliance,
                                               int strafe_away,
                                               int strafe_back) {
         String log_prefix = "[" + beacon_name + "] ";
 
         info(log_prefix +
-                "Checking beacon for " + COLOR_NAMES[color_alliance] + " alliance.");
+                "Checking beacon for " + color_alliance + " alliance.");
 
         // Align to the first (near) side of the beacon, and read its color.
         info(log_prefix + "Reading near side color...");
         drive_distance(strafe_back, 3.0, 0.2);
-        int near_color = read_beacon_color();
+        AllianceColor near_color = read_beacon_color();
 
-        info(log_prefix + "Near side color: " + COLOR_NAMES[near_color]);
+        info(log_prefix + "Near side color: " + near_color);
 
         // Send the color telemetry data for debugging.
-        telemetry.addData(beacon_name, COLOR_NAMES[near_color] + "/" + COLOR_NAMES[COLOR_UNKNOWN]);
+        telemetry.addData(beacon_name, near_color + "/" + AllianceColor.Unknown);
         telemetry.update();
 
         // Align to the second (far) side of the beacon, and read its color.
         info(log_prefix + "Reading far side color...");
         drive_distance(strafe_away, 5.0, 0.2);
-        int far_color = read_beacon_color();
+        AllianceColor far_color = read_beacon_color();
 
-        info(log_prefix + "Far side color: " + COLOR_NAMES[far_color]);
+        info(log_prefix + "Far side color: " + far_color);
 
         // Send the color telemetry data for debugging.
-        telemetry.addData(beacon_name, COLOR_NAMES[near_color] + "/" + COLOR_NAMES[far_color]);
+        telemetry.addData(beacon_name, near_color + "/" + far_color);
         telemetry.update();
 
         if(near_color == color_alliance) {
@@ -334,10 +332,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         // timeout and re-push it, which should flip the color. If we leave the beacon on
         // the wrong color, it is 30 points for the other alliance. It doesn't matter which button
         // we push at this point, so no need to reposition.
-        int checked_beacon_color = read_beacon_color();
+        AllianceColor checked_beacon_color = read_beacon_color();
         if(checked_beacon_color != color_alliance) {
             info(log_prefix + "Appears to be mis-pushed; got color " +
-                    COLOR_NAMES[checked_beacon_color] + "; waiting to re-push!");
+                    checked_beacon_color + "; waiting to re-push!");
 
             sleep(5000);
 
@@ -348,7 +346,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
     // Figure out the color (red or blue) that the beacon color sensor is seeing. In order to
     // get a somewhat more accurate color reading, multiple readings are taken and averaged.
-    public int read_beacon_color() {
+    public AllianceColor read_beacon_color() {
         // Accumulator variables for red and blue values.
         double r = 0.0, b = 0.0;
 
@@ -369,20 +367,20 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         info(String.format(Locale.US, "Average color values: red=%.2f, blue=%.2f", r, b));
 
         if(b > r)       // The sensor saw more blue than red.
-            return COLOR_BLUE;
+            return AllianceColor.Blue;
         else if(r > b)  // The sensor saw more red than blue.
-            return COLOR_RED;
+            return AllianceColor.Red;
 
         // Most likely, we didn't get blue *or* red data, or they were the same value, so it is
         // not possible to tell the color.
-        return COLOR_UNKNOWN;
+        return AllianceColor.Unknown;
     }
 
-    public int check_alliance() {
+    public AllianceColor check_alliance() {
         if (alliance_switch.getState())
-            return COLOR_RED;
+            return AllianceColor.Red;
         else
-            return COLOR_BLUE;
+            return AllianceColor.Blue;
     }
 
     // Initialize the robot and all its sensors.
@@ -427,7 +425,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     public void robotWaitForStart() throws InterruptedException {
         while(!isStarted() && !isStopRequested()) {
             // Send some basic sensor data telemetry for confirmation and testing.
-            telemetry.addData("1. alliance", COLOR_NAMES[check_alliance()]);
+            telemetry.addData("1. alliance", check_alliance());
             telemetry.addData("2. range", range.cmUltrasonic());
             telemetry.addData("3. tape_alpha", Tape_color.alpha());
             telemetry.addData("4. beacon_blue", Beacon_color.blue());

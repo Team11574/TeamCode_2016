@@ -206,19 +206,16 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             motor[i].setTargetPosition((int)((double)count * DRIVE_DIRECTIONS[direction][i]));
             set_motor_power(i, direction, 0.20 * speed * DRIVE_DIRECTIONS[direction][i]);
         }
-        telemetry.update();
 
         sleep(100);
         for(int i=0; i < MOTOR_COUNT; i++) {
             set_motor_power(i, direction, 0.50 * speed * DRIVE_DIRECTIONS[direction][i]);
         }
-        telemetry.update();
 
         sleep(30);
         for(int i=0; i < MOTOR_COUNT; i++) {
             set_motor_power(i, direction, 1.00 * speed * DRIVE_DIRECTIONS[direction][i]);
         }
-        telemetry.update();
     }
 
     // Start driving in a given direction at a given speed for a maximum of the given distance,

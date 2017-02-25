@@ -44,6 +44,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Circumference of the wheels, in inches.
     final private static double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
 
+    // Conversion factor from centimeters to inches.
+    final private static double CM_TO_INCH = 2.54;
+
     // The factor of slippage of wheels when strafing. Measured to be about 8%.
     final private static double STRAFE_SLIPPAGE_FACTOR = 1.08;
 
@@ -241,7 +244,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     public void drive_until_lt_range(int direction, double desired_range, double max_distance, double speed) {
         drive_distance_start(direction, max_distance, speed);
         while(!one_motor_stopped()) {
-            double current_range = (range.cmUltrasonic() / 2.54);
+            double current_range = (range.cmUltrasonic() / CM_TO_INCH);
             if(current_range <= desired_range)
                 break;
         }
@@ -255,7 +258,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     public void drive_until_gt_range(int direction, double desired_range, double max_distance, double speed) {
         drive_distance_start(direction, max_distance, speed);
         while(!one_motor_stopped()) {
-            double current_range = (range.cmUltrasonic() / 2.54);
+            double current_range = (range.cmUltrasonic() / CM_TO_INCH);
             if(current_range >= desired_range)
                 break;
         }

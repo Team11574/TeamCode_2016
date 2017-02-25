@@ -237,12 +237,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         stop_all_motors();
     }
 
-    // Drive towards a wall in a given direction at a given speed until reaching the desired range.
+    // Drive forwards towards a wall at a given speed until reaching the desired range.
     // As a safety measure, stop after max_distance to avoid crashing too badly.
-    // TODO(jeremycole): Since the sensor is known to be front-mounted, this probably doesn't need
-    //                   the direction argument to be passed at all. It will always be forward.
-    public void drive_until_lt_range(int direction, double desired_range, double max_distance, double speed) {
-        drive_distance_start(direction, max_distance, speed);
+    public void drive_until_lt_range(double desired_range, double max_distance, double speed) {
+        drive_distance_start(DRIVE_FORWARD, max_distance, speed);
         while(!one_motor_stopped()) {
             double current_range = (range.cmUltrasonic() / CM_TO_INCH);
             if(current_range <= desired_range)
@@ -251,12 +249,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         stop_all_motors();
     }
 
-    // Drive away from a wall in a given direction at a given speed until reaching the desired
-    // range. As a safety measure, stop after max_distance to avoid crashing too badly.
-    // TODO(jeremycole): Since the sensor is known to be front-mounted, this probably doesn't need
-    //                   the direction argument to be passed at all. It will always be backward.
-    public void drive_until_gt_range(int direction, double desired_range, double max_distance, double speed) {
-        drive_distance_start(direction, max_distance, speed);
+    // Drive backwards away from a wall at a given speed until reaching the desired range.
+    // As a safety measure, stop after max_distance to avoid crashing too badly.
+    public void drive_until_gt_range(double desired_range, double max_distance, double speed) {
+        drive_distance_start(DRIVE_BACKWARD, max_distance, speed);
         while(!one_motor_stopped()) {
             double current_range = (range.cmUltrasonic() / CM_TO_INCH);
             if(current_range >= desired_range)
@@ -281,7 +277,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Drive forwards slowly, push the button, and then back up again.
     public void push_beacon() {
         drive_distance(DRIVE_FORWARD, 2.0, 0.2);
-        drive_until_gt_range(DRIVE_BACKWARD, 5.0, 15.0, 0.2);
+        drive_until_gt_range(5.0, 15.0, 0.2);
     }
 
     // Check the beacon colors and push the correct button. This assumes that the robot has been

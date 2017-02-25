@@ -69,14 +69,14 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
         drive_distance(strafe_away, 34.0, 1.0);
         drive_distance(DRIVE_FORWARD, 24.0, 1.0);
         drive_until_gt_alpha(strafe_away, tape_alpha, 28.0, 0.6);
-        drive_until_lt_range(DRIVE_FORWARD, 10.0, 24.0, 0.6);
-        drive_until_lt_range(DRIVE_FORWARD, 5.0, 10.0, 0.2);
+        drive_until_lt_range(10.0, 24.0, 0.6);
+        drive_until_lt_range(5.0, 10.0, 0.2);
 
         // Check the colors of each side of the beacon and then push the appropriate one.
         check_beacons_and_push_button("Beacon 1", color_alliance, strafe_away, strafe_back);
 
         // Back up a bit to avoid hitting anything while driving quickly to the next beacon.
-        drive_until_gt_range(DRIVE_BACKWARD, 10.0, 10.0, 0.6);
+        drive_until_gt_range(10.0, 10.0, 0.6);
 
         /*
             The strategy to align to the second beacon here is:
@@ -87,14 +87,14 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
         info("Re-positioning to Beacon 2...");
         drive_distance(strafe_away, 36.0, 1.0);
         drive_until_gt_alpha(strafe_away, tape_alpha, 24.0, 0.6);
-        drive_until_lt_range(DRIVE_FORWARD, 10.0, 24.0, 0.6);
-        drive_until_lt_range(DRIVE_FORWARD, 5.0, 10.0, 0.2);
+        drive_until_lt_range(10.0, 24.0, 0.6);
+        drive_until_lt_range(5.0, 10.0, 0.2);
 
         // Check the colors of each side of the beacon and then push the appropriate one.
         check_beacons_and_push_button("Beacon 2", color_alliance, strafe_away, strafe_back);
 
         // Back up a bit to avoid hitting anything while driving quickly cap ball.
-        drive_until_gt_range(DRIVE_BACKWARD, 10.0, 10.0, 0.6);
+        drive_until_gt_range(10.0, 10.0, 0.6);
 
         // Strafe back to the first beacon's tape line, then back up to bump the cap ball and
         // park on the center.

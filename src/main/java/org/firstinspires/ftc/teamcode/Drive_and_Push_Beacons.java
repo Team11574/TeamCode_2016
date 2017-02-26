@@ -66,17 +66,16 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
                  the button pushing code to push the button.
          */
         info("Re-positioning to Beacon 1...");
-        drive_distance(strafe_away, 34.0, 1.0);
+        drive_distance(strafe_away, 34.0, 0.6);
         drive_distance(DRIVE_FORWARD, 24.0, 1.0);
         drive_until_gt_alpha(strafe_away, tape_alpha, 28.0, 0.6);
-        drive_until_lt_range(10.0, 24.0, 0.6);
-        drive_until_lt_range(5.0, 10.0, 0.2);
+        drive_until_lt_range(5.0, 20.0, 0.2);
 
         // Check the colors of each side of the beacon and then push the appropriate one.
         check_beacons_and_push_button("Beacon 1", color_alliance, strafe_away, strafe_back);
 
         // Back up a bit to avoid hitting anything while driving quickly to the next beacon.
-        drive_until_gt_range(10.0, 10.0, 0.6);
+        drive_until_gt_range(10.0, 10.0, 1.0);
 
         /*
             The strategy to align to the second beacon here is:
@@ -85,21 +84,20 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
               3. Drive forwards quickly and then slowly as above.
          */
         info("Re-positioning to Beacon 2...");
-        drive_distance(strafe_away, 36.0, 1.0);
+        drive_distance(strafe_away, 36.0, 0.6);
         drive_until_gt_alpha(strafe_away, tape_alpha, 24.0, 0.6);
-        drive_until_lt_range(10.0, 24.0, 0.6);
-        drive_until_lt_range(5.0, 10.0, 0.2);
+        drive_until_lt_range(5.0, 20.0, 0.2);
 
         // Check the colors of each side of the beacon and then push the appropriate one.
         check_beacons_and_push_button("Beacon 2", color_alliance, strafe_away, strafe_back);
 
         // Back up a bit to avoid hitting anything while driving quickly cap ball.
-        drive_until_gt_range(10.0, 10.0, 0.6);
+        drive_until_gt_range(10.0, 10.0, 1.0);
 
         // Strafe back to the first beacon's tape line, then back up to bump the cap ball and
         // park on the center.
         info("Re-positioning to bump the cap ball...");
-        drive_distance(strafe_back, 36.0, 1.0);
+        drive_distance(strafe_back, 36.0, 0.6);
         drive_until_gt_alpha(strafe_back, tape_alpha, 24.0, 0.6);
         drive_distance(DRIVE_BACKWARD, 36.0, 1.0);
 

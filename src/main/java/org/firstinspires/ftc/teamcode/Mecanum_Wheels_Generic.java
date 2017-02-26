@@ -51,15 +51,13 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     final private static double STRAFE_SLIPPAGE_FACTOR = 1.08;
 
     // The number of color samples to read.
-    // TODO(jeremycole): Tune to save a bit of time. Checking 100 samples is probably overkill.
-    final private static int COLOR_SAMPLE_COUNT = 100;
+    final private static int COLOR_SAMPLE_COUNT = 20;
 
     // The amount of time to sleep in between color samples.
-    final private static int COLOR_SAMPLE_SLEEP = 2;
+    final private static int COLOR_SAMPLE_SLEEP = 1;
 
     // The difference in brightness from dark floor mat to white tape.
-    // TODO(jeremycole): Adjust once the Tape_color sensor is lowered.
-    final public static double TAPE_ALPHA_DIFFERENCE = 5.0;
+    final public static double TAPE_ALPHA_DIFFERENCE = 10.0;
 
     // Each of the colors we need to know about, only red and blue.
     public enum AllianceColor {

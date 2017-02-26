@@ -103,8 +103,8 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             // mFL,  mFR,   mBL,   mBR
             { +1.00, +1.00, +1.00, +1.00 }, // DRIVE_FORWARD
             { -1.00, -1.00, -1.00, -1.00 }, // DRIVE_BACKWARD
-            { +1.00, -1.00, +1.00, -1.00 }, // TURN_LEFT
-            { -1.00, +1.00, -1.00, +1.00 }, // TURN_RIGHT
+            { -1.00, +1.00, -1.00, +1.00 }, // TURN_LEFT
+            { +1.00, -1.00, +1.00, -1.00 }, // TURN_RIGHT
             { -1.00, +1.00, +1.00, -1.00 }, // STRAFE_LEFT
             { +1.00, -0.92, -0.92, +1.04 }, // STRAFE_RIGHT
     };

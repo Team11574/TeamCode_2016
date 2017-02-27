@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @SuppressWarnings("unused")
 public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
     @Override
-    public void robotRun() throws InterruptedException {
+    public void robotRun() {
         // Read the alliance color from the alliance switch.
         AllianceColor color_alliance = check_alliance();
 
@@ -70,6 +70,7 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
         drive_distance(DRIVE_FORWARD, 24.0, 1.0);
         drive_until_gt_alpha(strafe_away, tape_alpha, 28.0, 0.6);
         drive_until_lt_range(5.0, 20.0, 0.2);
+        stop_all_motors();
 
         // Check the colors of each side of the beacon and then push the appropriate one.
         check_beacons_and_push_button("Beacon 1", color_alliance, strafe_away, strafe_back);
@@ -87,6 +88,7 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
         drive_distance(strafe_away, 36.0, 0.6);
         drive_until_gt_alpha(strafe_away, tape_alpha, 24.0, 0.6);
         drive_until_lt_range(5.0, 20.0, 0.2);
+        stop_all_motors();
 
         // Check the colors of each side of the beacon and then push the appropriate one.
         check_beacons_and_push_button("Beacon 2", color_alliance, strafe_away, strafe_back);
@@ -100,10 +102,9 @@ public class Drive_and_Push_Beacons extends Mecanum_Wheels_Generic {
         drive_distance(strafe_back, 36.0, 0.6);
         drive_until_gt_alpha(strafe_back, tape_alpha, 24.0, 0.6);
         drive_distance(DRIVE_BACKWARD, 36.0, 1.0);
+        stop_all_motors();
 
         info("Driving complete!");
-
-        idle();
     }
 }
 

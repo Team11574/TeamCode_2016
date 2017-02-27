@@ -171,7 +171,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Stop all motors immediately.
     public void stop_all_motors() {
         for(int i=0; i < MOTOR_COUNT; i++) {
-            motor[i].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            if(motor[i].getMode() != DcMotor.RunMode.STOP_AND_RESET_ENCODER) {
+                motor[i].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
         }
     }
 
@@ -243,7 +245,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
                 direction, count, speed));
 
         for(int i=0; i < MOTOR_COUNT; i++) {
-            motor[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            if(motor[i].getMode() != DcMotor.RunMode.RUN_TO_POSITION) {
+                motor[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
             motor[i].setTargetPosition((int)((double)count * DRIVE_DIRECTIONS[direction][i]));
             set_motor_power(i, direction, 0.20 * speed * DRIVE_DIRECTIONS[direction][i]);
         }
@@ -266,7 +270,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
         // TODO: Possibly implement the speed ramp-up for this mode, too.
         for(int i=0; i < MOTOR_COUNT; i++) {
-            motor[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            if(motor[i].getMode() != DcMotor.RunMode.RUN_USING_ENCODER) {
+                motor[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
             set_motor_power(i, direction, speed * DRIVE_DIRECTIONS[direction][i]);
         }
     }
@@ -342,6 +348,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // beacon.
     public void check_beacons_and_push_button(String beacon_name,
                                               AllianceColor color_alliance,
+                                              double tape_alpha,
                                               int strafe_away,
                                               int strafe_back) {
         String log_prefix = "[" + beacon_name + "] ";
@@ -352,6 +359,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         // Align to the first (near) side of the beacon, and read its color.
         info(log_prefix + "Reading near side color...");
         drive_distance(strafe_back, 3.0, 0.2);
+        stop_all_motors();
         AllianceColor near_color = read_beacon_color();
 
         info(log_prefix + "Near side color: " + near_color);
@@ -362,7 +370,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
         // Align to the second (far) side of the beacon, and read its color.
         info(log_prefix + "Reading far side color...");
-        drive_distance(strafe_away, 5.0, 0.2);
+        drive_until_gt_alpha(strafe_away, tape_alpha, 5.0, 0.2);
+        drive_distance(strafe_away, 3.0, 0.2);
+        stop_all_motors();
         AllianceColor far_color = read_beacon_color();
 
         info(log_prefix + "Far side color: " + far_color);
@@ -373,10 +383,13 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
         if(near_color == color_alliance) {
             info(log_prefix + "Pushing near side.");
-            drive_distance(strafe_back, 8.0, 0.2);
+            drive_until_gt_alpha(strafe_back, tape_alpha, 5.0, 0.2);
+            drive_distance(strafe_back, 5.0, 0.2);
+            stop_all_motors();
         } else if(far_color == color_alliance) {
             info(log_prefix + "Pushing far side.");
-            drive_distance(strafe_away, 3.0, 0.2);
+            drive_distance(strafe_away, 2.0, 0.2);
+            stop_all_motors();
         } else {
             // Don't push either button...
             info(log_prefix + "Unable to determine which side to press!");
@@ -397,6 +410,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             sleep(5000);
 
             info(log_prefix + "Re-pushing beacon. Hopefully fixed!");
+            drive_distance(DRIVE_FORWARD, 1.0, 0.2);
             push_beacon();
             stop_all_motors();
         }
@@ -451,6 +465,8 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         for(int i=0; i < MOTOR_COUNT; i++) {
             motor[i] = hardwareMap.dcMotor.get(MOTOR_NAMES[i]);
             motor[i].setDirection(MOTOR_DIRECTIONS[i]);
+            motor[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor[i].setPower(0.0);
             // TODO: Need to set this to something reasonable.
             motor[i].setMaxSpeed(speed_mph_to_cps(3.0));
         }

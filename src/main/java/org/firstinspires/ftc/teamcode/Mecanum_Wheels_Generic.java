@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 
 // TODO(jeremycole): All the loops here should ensure they exit when the timer expires.
@@ -130,6 +131,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
 
     // The chassis-mounted red/blue alliance switch for autonomous mode.
     DigitalChannel alliance_switch;
+
+    // The gyro sensor.
+    GyroSensor gyro;
 
     // Convert a distance, in inches, into an encoder count, including a wheel slippage correction
     // factor.
@@ -495,6 +499,10 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         alliance_switch = hardwareMap.digitalChannel.get("alliance_switch");
         alliance_switch.setMode(DigitalChannelController.Mode.INPUT);
 
+        // Initialize the gyro.
+        info("* Initializing gyro sensor...");
+        gyro = hardwareMap.gyroSensor.get("gyro");
+
         info("Initialization complete.");
     }
 
@@ -506,6 +514,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             telemetry.addData("3. tape_alpha", Tape_color.alpha());
             telemetry.addData("4. beacon_blue", Beacon_color.blue());
             telemetry.addData("5. beacon_red", Beacon_color.red());
+            telemetry.addData("6. gyro", gyro.getHeading());
             telemetry.update();
         }
     }

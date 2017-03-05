@@ -13,7 +13,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class Park_on_Ramp extends Mecanum_Wheels_Generic {
     @Override
     public void robotRun() {
-        drive_distance(STRAFE_RIGHT, 35.0, 0.6);
+        AllianceColor color_alliance = check_alliance();
+        int strafe_direction;
+        if (color_alliance == AllianceColor.Red) {
+            strafe_direction = STRAFE_RIGHT;
+        } else {
+            strafe_direction = STRAFE_LEFT;
+        }
+        drive_distance(strafe_direction, 35.0, 0.6);
         drive_distance(TURN_LEFT, 10.0, 0.2);
         drive_distance(DRIVE_FORWARD, 35.0, 0.6);
     }

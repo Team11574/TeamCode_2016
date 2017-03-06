@@ -499,6 +499,11 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         // Initialize the gyro.
         info("* Initializing gyro sensor...");
         gyro = hardwareMap.gyroSensor.get("gyro");
+        // It takes several seconds to calibrate, so show a message on the telemetry data.
+        telemetry.addData(">", "Calibrating the gyro sensor...");
+        telemetry.update();
+        gyro.calibrate();
+        while(gyro.isCalibrating() && !isStopRequested());
 
         info("Initialization complete.");
     }

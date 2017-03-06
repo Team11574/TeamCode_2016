@@ -1,13 +1,12 @@
-package org.firstinspires.ftc.teamcode;
-
 /*
+ * Copyright 2017, FTC Team 11574.
+ *
+ * A generic framework for initializing and controlling the Mecanum wheel based
+ * robot as built by Team 11574. This class should not be used directly, but
+ * should be sub-classed for each actual program desired.
+ */
 
-Created by FTC Team 11574 on 1/28/2017.
-
-This class provides the basics to initialize the robot, and provides simple methods to allow
-it to be controlled. This class should be sub-classed for each actual program.
-
-*/
+package org.firstinspires.ftc.teamcode;
 
 import java.util.Locale;
 import android.util.Log;
@@ -21,8 +20,6 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
-
-// TODO(jeremycole): All the loops here should ensure they exit when the timer expires.
 
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Mecanum_Wheels_Generic extends LinearOpMode {
@@ -75,7 +72,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     }
 
     // Each of the motors on the robot.
-    // TODO(jeremycole): This could probably be an enum.
+    // TODO: This could probably be an enum.
     final private static int MOTOR_COUNT = 4;
     final private static int mFL = 0;
     final private static int mFR = 1;
@@ -95,7 +92,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     };
 
     // Each driving direction supported by driving functions.
-    // TODO(jeremycole): This could probably be an enum.
+    // TODO: This could probably be an enum.
     final public static int DRIVE_FORWARD  = 0;
     final public static int DRIVE_BACKWARD = 1;
     final public static int TURN_LEFT      = 2;
@@ -471,7 +468,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             motor[i].setDirection(MOTOR_DIRECTIONS[i]);
             motor[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor[i].setPower(0.0);
-            // TODO: Need to set this to something reasonable.
+            // TODO: We may want to tune the maximum speed a bit.
             motor[i].setMaxSpeed(speed_mph_to_cps(3.0));
         }
 

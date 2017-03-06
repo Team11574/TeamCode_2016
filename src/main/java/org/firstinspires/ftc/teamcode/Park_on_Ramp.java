@@ -1,12 +1,13 @@
+/*
+ * Copyright 2017, FTC Team 11574.
+ *
+ * A simple Autonomous program to drive away from the wall, turn towards
+ * the ramp, and then drive forward to park on the ramp.
+ */
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-/**
- * Created by FTC Team 11574 on 2/25/2017.
- *
- * Drive away from the wall and park on the ramp.
- */
 
 @Autonomous(name="Park on Ramp", group="Autonomous")
 @SuppressWarnings("unused")

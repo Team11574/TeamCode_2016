@@ -1,14 +1,12 @@
-package org.firstinspires.ftc.teamcode;
-
 /*
+ * Copyright 2017, FTC Team 11574.
+ *
+ * A complex Autonomous program which aims to find and press the beacons to
+ * the alliance color. It uses encoder-based distance driving, a range sensor,
+ * a tape-finding color sensor, and a beacon color sensor to do so.
+ */
 
-Created by FTC Team 11574 on 1/28/2017.
-
-This is the autonomous program which aims to find and press the beacons to the alliance
-color. It uses encoder-based distance driving, range sensor, tape-finding color sensor,
-and beacon color sensor to do so.
-
-*/
+package org.firstinspires.ftc.teamcode;
 
 import java.util.Locale;
 

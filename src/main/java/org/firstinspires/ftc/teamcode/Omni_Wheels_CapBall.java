@@ -5,6 +5,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name="Omni Wheels CapBall", group="Omni Wheels")
-//@Disabled
+@Disabled
 public class Omni_Wheels_CapBall extends LinearOpMode
 {
     DcMotor leftreardrivemotor;

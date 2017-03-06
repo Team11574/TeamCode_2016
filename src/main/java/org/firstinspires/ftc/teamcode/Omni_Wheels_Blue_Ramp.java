@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="Omni Wheels Blue Ramp", group="Omni Wheels")
-//@Disabled
+@Disabled
 public class Omni_Wheels_Blue_Ramp extends LinearOpMode
 {
     DcMotor leftreardrivemotor;

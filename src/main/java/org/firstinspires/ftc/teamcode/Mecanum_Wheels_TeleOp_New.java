@@ -71,6 +71,16 @@ public class Mecanum_Wheels_TeleOp_New extends OpMode {
             mBL.setPower(-motorPower);
             mFR.setPower(-motorPower);
             mBR.setPower(-motorPower);
+        } else if(gamepad1.left_trigger > 0.5) {
+            mFL.setPower(-motorPower);
+            mBL.setPower(-motorPower);
+            mFR.setPower(motorPower);
+            mBR.setPower(motorPower);
+        } else if(gamepad1.right_trigger > 0.5) {
+            mFL.setPower(motorPower);
+            mBL.setPower(motorPower);
+            mFR.setPower(-motorPower);
+            mBR.setPower(-motorPower);
         } else {
             // Allow use of the analog left/right sticks to control the robot in differential
             // steering (tank driving) mode. Allow use of the left and right trigger buttons

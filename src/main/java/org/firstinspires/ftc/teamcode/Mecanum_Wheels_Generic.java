@@ -110,7 +110,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             { -1.00, -1.00, -1.00, -1.00 }, // DRIVE_BACKWARD
             { -1.00, +1.00, -1.00, +1.00 }, // TURN_LEFT
             { +1.00, -1.00, +1.00, -1.00 }, // TURN_RIGHT
-            { -1.00, +1.00, +1.00, -1.00 }, // STRAFE_LEFT
+            { -0.97, +0.97, +1.00, -1.00 }, // STRAFE_LEFT
             { +1.00, -0.92, -0.92, +1.04 }, // STRAFE_RIGHT
     };
 
@@ -338,9 +338,23 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         }
     }
 
+    public void rotate_until_heading(int direction,
+                                     int desired_angle,
+                                     double max_distance,
+                                     double speed) {
+        drive_distance_start(direction, max_distance, speed);
+        while(!one_encoder_satisfied()) {
+            int current_angle = gyro.getHeading();
+            if (direction == TURN_RIGHT && current_angle >= desired_angle)
+                break;
+            if (direction == TURN_LEFT && current_angle <= desired_angle)
+                break;
+        }
+    }
+
     // Drive forwards slowly, push the button, and then back up again.
     public void push_beacon() {
-        drive_distance(DRIVE_FORWARD, 2.0, 0.2);
+        drive_distance(DRIVE_FORWARD, 3.7, 0.2);
         drive_until_gt_range(5.0, 15.0, 0.2);
     }
 
@@ -499,6 +513,9 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         // Initialize the gyro.
         info("* Initializing gyro sensor...");
         gyro = hardwareMap.gyroSensor.get("gyro");
+        telemetry.addData(">", "Calibrating gyro...");
+        gyro.calibrate();
+        while(gyro.isCalibrating() && !isStopRequested()){}
 
         info("Initialization complete.");
     }

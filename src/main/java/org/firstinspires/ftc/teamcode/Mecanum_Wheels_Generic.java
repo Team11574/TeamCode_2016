@@ -56,7 +56,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     final private static double STRAFE_SLIPPAGE_FACTOR = 1.08;
 
     // The number of color samples to read.
-    final private static int COLOR_SAMPLE_COUNT = 20;
+    final private static int COLOR_SAMPLE_COUNT = 50;
 
     // The amount of time to sleep in between color samples.
     final private static int COLOR_SAMPLE_SLEEP = 1;
@@ -231,10 +231,36 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         return false;
     }
 
+    // Check if at least one encoder has reached its desired position.
+    public boolean all_encoders_satisfied() {
+        int encoders_satisfied = 0;
+        for(int i=0; i < MOTOR_COUNT; i++) {
+            if(motor[i].getPower() == 0.0)
+                encoders_satisfied += 1;
+
+            // We're advancing forwards.
+            if(motor[i].getPower() > 0.0 && motor[i].getCurrentPosition() >= motor[i].getTargetPosition())
+                encoders_satisfied += 1;
+
+            // We're advancing backwards.
+            if(motor[i].getPower() < 0.0 && motor[i].getCurrentPosition() <= motor[i].getTargetPosition())
+                encoders_satisfied += 1;
+        }
+        return (encoders_satisfied == MOTOR_COUNT);
+    }
+
     // Wait for at least one encoder to have reached its desired position.
     public void wait_for_one_encoder_satisfied() {
         while(should_keep_running()) {
             if (one_encoder_satisfied())
+                return;
+        }
+    }
+
+    // Wait for at least one encoder to have reached its desired position.
+    public void wait_for_all_encoders_satisfied() {
+        while(should_keep_running()) {
+            if (all_encoders_satisfied())
                 return;
         }
     }
@@ -297,7 +323,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Drive in a given direction at a given speed until reaching the given distance.
     public void drive_distance(int direction, double distance, double speed) {
         drive_distance_start(direction, distance, speed);
-        wait_for_one_encoder_satisfied();
+        wait_for_all_encoders_satisfied();
     }
 
 
@@ -305,7 +331,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // As a safety measure, stop after max_distance to avoid crashing too badly.
     public void drive_until_lt_range(double desired_range, double max_distance, double speed) {
         drive_distance_start(DRIVE_FORWARD, max_distance, speed);
-        while(!one_motor_stopped() && should_keep_running()) {
+        while(!all_encoders_satisfied() && should_keep_running()) {
             double current_range = (range.cmUltrasonic() / CM_TO_INCH);
             if(current_range <= desired_range)
                 break;
@@ -316,7 +342,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
     // As a safety measure, stop after max_distance to avoid crashing too badly.
     public void drive_until_gt_range(double desired_range, double max_distance, double speed) {
         drive_distance_start(DRIVE_BACKWARD, max_distance, speed);
-        while(!one_motor_stopped() && should_keep_running()) {
+        while(!all_encoders_satisfied() && should_keep_running()) {
             double current_range = (range.cmUltrasonic() / CM_TO_INCH);
             if(current_range >= desired_range)
                 break;
@@ -331,7 +357,7 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
                                      double max_distance,
                                      double speed) {
         drive_distance_start(direction, max_distance, speed);
-        while(!one_motor_stopped()) {
+        while(!all_encoders_satisfied() && should_keep_running()) {
             double current_alpha = Tape_color.alpha();
             if(current_alpha >= desired_alpha)
                 break;

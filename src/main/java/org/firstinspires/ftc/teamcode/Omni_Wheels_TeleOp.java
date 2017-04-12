@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Omni Wheels TeleOp", group="Omni_Wheels")
-@Disabled
+//@Disabled
 public class Omni_Wheels_TeleOp extends LinearOpMode
 {
     DcMotor leftreardrivemotor, rightreardrivemotor;

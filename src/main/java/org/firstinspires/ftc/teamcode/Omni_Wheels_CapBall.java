@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @Autonomous(name="Omni Wheels CapBall", group="Omni Wheels")
-@Disabled
+//@Disabled
 public class Omni_Wheels_CapBall extends LinearOpMode
 {
     DcMotor leftreardrivemotor;

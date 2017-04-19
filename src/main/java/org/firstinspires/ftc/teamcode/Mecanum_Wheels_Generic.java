@@ -439,22 +439,6 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
         push_beacon();
         stop_all_motors();
 
-        // Check if the beacon switched to the alliance's color, if not, we'll wait the 5s rule
-        // timeout and re-push it, which should flip the color. If we leave the beacon on
-        // the wrong color, it is 30 points for the other alliance. It doesn't matter which button
-        // we push at this point, so no need to reposition.
-        AllianceColor checked_beacon_color = read_beacon_color();
-        if(checked_beacon_color != color_alliance) {
-            info(log_prefix + "Appears to be mis-pushed; got color " +
-                    checked_beacon_color + "; waiting to re-push!");
-
-            sleep(5000);
-
-            info(log_prefix + "Re-pushing beacon. Hopefully fixed!");
-            drive_distance(DRIVE_FORWARD, 1.0, 0.2);
-            push_beacon();
-            stop_all_motors();
-        }
     }
 
     // Figure out the color (red or blue) that the beacon color sensor is seeing. In order to

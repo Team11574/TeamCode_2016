@@ -16,7 +16,6 @@ public class CapBall_with_Encoders extends Mecanum_Wheels_Generic {
 
         // Drive to push CapBall and Park.
         drive_distance(DRIVE_FORWARD, 64.0, 0.8);
-        drive_distance(DRIVE_BACKWARD, 2.0, 0.2);
         stop_all_motors();
     }
 }

@@ -16,7 +16,7 @@ public class DriveForwardMecanumSS extends LinearOpMode {
     DcMotor rightRearMotor;
 
     //Called when Init button is pressed.
-
+    // Naming Motors
     @Override
     public void runOpMode() throws InterruptedException {
         leftFrontMotor = hardwareMap.dcMotor.get("mFL");
@@ -43,9 +43,10 @@ public class DriveForwardMecanumSS extends LinearOpMode {
         leftRearMotor.setPower(0.25);
         rightRearMotor.setPower(0.25);
 
+        // Telling robot to wait
         sleep(2000);  //wait for two seconds
 
-        //set motor power to zero to stop motors
+        //stop all motors
 
         leftFrontMotor.setPower(0.0);
         rightFrontMotor.setPower(0.0);

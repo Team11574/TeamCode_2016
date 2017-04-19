@@ -72,11 +72,13 @@ public class Mecanum_Wheels_TeleOp_New extends OpMode {
             mFR.setPower(-motorPower);
             mBR.setPower(-motorPower);
         } else if(gamepad1.left_trigger > 0.5) {
+            //Spin Left
             mFL.setPower(-motorPower);
             mBL.setPower(-motorPower);
             mFR.setPower(motorPower);
             mBR.setPower(motorPower);
         } else if(gamepad1.right_trigger > 0.5) {
+            //Spin Right
             mFL.setPower(motorPower);
             mBL.setPower(motorPower);
             mFR.setPower(-motorPower);

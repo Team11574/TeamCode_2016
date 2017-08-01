@@ -492,8 +492,6 @@ public class Mecanum_Wheels_Generic extends LinearOpMode {
             motor[i].setDirection(MOTOR_DIRECTIONS[i]);
             motor[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor[i].setPower(0.0);
-            // TODO: We may want to tune the maximum speed a bit.
-            motor[i].setMaxSpeed(speed_mph_to_cps(3.0));
         }
 
         // Make sure everything starts out stopped.

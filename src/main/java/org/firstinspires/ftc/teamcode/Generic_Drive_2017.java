@@ -430,23 +430,7 @@ public enum AllianceColor {
             sleep(COLOR_SAMPLE_SLEEP);
         }
 
-        // Produce an average red and blue value by dividing the accumulated sum in the r and b
-        // variables by the number of samples taken.
-        r /= COLOR_SAMPLE_COUNT;
-        b /= COLOR_SAMPLE_COUNT;
-
-        info(String.format(Locale.US, "Average color values: red=%.2f, blue=%.2f", r, b));
-
-        if(b > r)       // The sensor saw more blue than red.
-            return Mecanum_Wheels_Generic.AllianceColor.Blue;
-        else if(r > b)  // The sensor saw more red than blue.
-            return Mecanum_Wheels_Generic.AllianceColor.Red;
-
-        // Most likely, we didn't get blue *or* red data, or they were the same value, so it is
-        // not possible to tell the color.
-        return Mecanum_Wheels_Generic.AllianceColor.Unknown;
-    }
-
+    
     public Mecanum_Wheels_Generic.AllianceColor check_alliance() {
         if (alliance_switch.getState())
             return Mecanum_Wheels_Generic.AllianceColor.Red;

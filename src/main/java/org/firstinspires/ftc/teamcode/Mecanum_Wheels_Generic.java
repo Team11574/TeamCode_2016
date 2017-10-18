@@ -25,7 +25,6 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 public class Mecanum_Wheels_Generic extends LinearOpMode {
     // Tag to log messages to the Android log with.
     final public static String LOG_TAG = "FTC";
-
     public void info(String msg) {
         Log.i(LOG_TAG, msg);
     }

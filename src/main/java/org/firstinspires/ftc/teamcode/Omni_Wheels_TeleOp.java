@@ -1,18 +1,15 @@
 // Basic TeleOp program that drives bot using controller joysticks in tank mode.
-// This code monitors the period and stops when the period is ended.
 // This uses 2 drive motors and maps them to the joy stick button.
 
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Omni Wheels TeleOp", group="Omni_Wheels")
-//@Disabled
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Omni_Wheels_TeleOp extends LinearOpMode
 {
     DcMotor leftreardrivemotor, rightreardrivemotor;
